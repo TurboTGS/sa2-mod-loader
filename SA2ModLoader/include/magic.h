@@ -1131,7 +1131,8 @@ namespace Magic
 				LPDIRECT3DPIXELSHADER9 m_pPixelShader;
 			};
 
-			_DWORD field_C;
+			char gap[4];
+
 			int m_VideoMemorySize;
 			int m_ShaderModel;
 			RenderDeviceInitInfo_t m_InitInfo;

@@ -1017,4 +1017,9 @@ DataPointer(int, SettingsInPauseMenu, 0x1A55950);                          // Se
 DataPointer(char*, SettingsMenuState, 0xC77F20);                           // -> 0x1D7B9E0; +0xC0 cursor, +0xC1 non-zero = 7 items
 DataPointer(int, SettingsWheelAngle, 0x1A3D90C);                           // current angle of the Settings item wheel
 DataPointer(int*, HelpOptionsMenuState, 0xC77F14);                         // main menu's Help and Options state; [2] non-zero while animating
+// HelpOptionsMenuState is MainMenuData (above, MenuData[]) as ints. As bytes:
+// +8 non-zero while animating, +0x24 top-level cursor (char, 7 items),
+// +0xB0 Help and Options cursor (char, 6 items).
+DataArray(void*, MainMenu_TopItemHandlers, 0x666154, 7);                   // A/Start in Menu_MainMenu state 2; 4 = Help and Options
+DataArray(void*, MainMenu_HelpOptionsItemHandlers, 0x6661D8, 6);           // A/Start in state 0x10; 3 = Controls, 4 = Settings
 DataPointer(int, CommandLineIsR, 0x1933F6C);                               // lpCmdLine == "-r"
