@@ -1016,3 +1016,5 @@ DataPointer(int, ControlsInPauseMenu, 0x1A55758);                          // He
 DataPointer(int, SettingsInPauseMenu, 0x1A55950);                          // Settings opened from the pause menu
 DataPointer(char*, SettingsMenuState, 0xC77F20);                           // -> 0x1D7B9E0; +0xC0 cursor, +0xC1 non-zero = 7 items
 DataPointer(int, SettingsWheelAngle, 0x1A3D90C);                           // current angle of the Settings item wheel
+DataPointer(int*, HelpOptionsMenuState, 0xC77F14);                         // main menu's Help and Options state; [2] non-zero while animating
+DataPointer(int, CommandLineIsR, 0x1933F6C);                               // lpCmdLine == "-r"

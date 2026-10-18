@@ -4842,3 +4842,6 @@ static inline void NavigateToSubMenu(int selection)
 		call NavigateToSubMenuPtr
 	}
 }
+VoidFunc(InitSettingsMenu, 0x66D560);                                      // creates optionsExec (display = SettingsMenu_Draw)
+VoidFunc(PauseSettings_Update, 0x4416C0);                                  // Settings from the pause menu (calls Menu_Settings)
+VoidFunc(PauseSettings_Draw, 0x441650);
