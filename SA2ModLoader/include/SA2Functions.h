@@ -4819,3 +4819,26 @@ static inline void FreeMemory(int* idk, char* path, int _size)
 		call FreeMemoryPtr
 	}
 }
+// ---- Input and menus (TurboTGS/turbo, from SA2_1P_in_2P) -----------------
+struct SOCInput;
+static const auto PollInputDevices = controller_useless;                   // alias: the raw input poll
+FunctionPointer(SOCInput*, GetSOCInput, (), 0x402170);                     // g_pSOCInput, created on first use
+VoidFunc(UpdateControlsScreenFade, 0x40CBB0);
+VoidFunc(DrawControlsScreen, 0x40CC00);                                    // Help and Options > Controls diagram
+VoidFunc(CloseControlsScreen, 0x40D010);
+VoidFunc(ResetMainMenuState, 0x664B60);
+FunctionPointer(int, SettingsWheel_UpdateLayout, (), 0x66C010);            // 1 while the wheel is turning
+VoidFunc(SettingsMenu_Draw, 0x66C7E0);
+VoidFunc(OpenSettingsMenu, 0x66D7E0);
+VoidFunc(CloseSettingsMenu, 0x66D930);
+
+// void __usercall NavigateToSubMenu(int selection@<eax>)
+static const void* const NavigateToSubMenuPtr = (void*)0x664DC0;
+static inline void NavigateToSubMenu(int selection)
+{
+	__asm
+	{
+		mov eax, [selection]
+		call NavigateToSubMenuPtr
+	}
+}

@@ -2403,6 +2403,12 @@ struct UserConfigData
 	int Rumble;
 };
 
+// Filled by ReadConfig (0x405310) from Config\UserConfig.cfg and Keyboard.cfg.
+// Layout past `data` (offsets from the start of LaunchConfig, see
+// KeyboardSlotBinding below): data.field_24 (+0x28) = Keyboard.cfg loaded,
+// data.field_28/field_2C (+0x2C/+0x30) = InputWay of P1/P2, data.Rumble
+// (+0x34) = Vibrate of P1, gap_38[0..3] (+0x38) = Vibrate of P2,
+// gap_38 + 4 (+0x3C) = KeyboardSlotBinding[36].
 struct LaunchConfig
 {
 	LaunchConfig_vtable *vtable;
@@ -4002,6 +4008,41 @@ struct RingGroupChildState {
 struct RingGroupWork {
 	RingGroupChildState Rings[RingGroupMaxRings];
 	NJS_POINT3 Positions[RingGroupMaxRings];
+};
+
+// ---- Input (TurboTGS/turbo, from SA2_1P_in_2P docs/controls_mod.md) -------
+
+// One player's raw input (ControllerRawSlots, 0x1A52C48), written by
+// controller_useless (0x425700) and turned into Dreamcast buttons by
+// UpdateControllers through ButtonMappings.
+struct ControllerRawInput
+{
+	int Disconnected; // 0 = present
+	int Buttons;      // 1 left, 2 right, 4 down, 8 up, 0x20 R, 0x40 L,
+	                  // 0x100 A, 0x200 B, 0x400 X, 0x800 Y, 0x1000 Start
+	int LeftStickX;   // -128..127 (pad axes x127); up is positive
+	int LeftStickY;
+	int RightStickX;
+	int RightStickY;
+	int LeftTrigger;  // 0..255
+	int RightTrigger;
+};
+
+// LaunchConfig + 0x3C: keyboard slot id -> game key code, 36 entries
+// (KeyboardSlotTableDefault 0x8AE040, then Config\Keyboard.cfg).
+// P1 uses slot ids 0..8, 0xB, 0xC; P2 0x13..0x1B, 0x1E, 0x1F.
+struct KeyboardSlotBinding
+{
+	int SlotID;
+	int KeyCode; // -1 = unbound
+};
+
+// XInputMappings (0x8AE160): pairs of {id, raw button bit}. For gamepads the
+// id is a SOCController::ControllerButton, for the keyboard a slot id.
+struct InputBitMapping
+{
+	int ID;
+	int RawBit;
 };
 
 #pragma pack(pop)

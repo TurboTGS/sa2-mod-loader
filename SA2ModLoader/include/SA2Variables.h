@@ -1005,3 +1005,14 @@ DataPointer(float, FogFar, 0x19341C8);
 DataPointer(int, FogMode, 0x193411C);
 DataPointer(bool, fogEnabled, 0x25EFFCC);
 DataPointer(int, DisableFogMaybe, 0x1A55808);
+// ---- Input and menus (TurboTGS/turbo, from SA2_1P_in_2P) -----------------
+DataArray(ControllerRawInput, ControllerRawSlots, 0x1A52C48, 4);           // written by controller_useless
+DataArray(ControllerRawInput, ControllerRawSlotsPrevious, 0x1A529E8, 4);   // last frame's copy
+DataArray(InputBitMapping, XInputMappings, 0x8AE160, 22);                  // 2 sets of 11: pads (and P1 keys), P2 keys
+DataArray(KeyboardSlotBinding, KeyboardSlotTableDefault, 0x8AE040, 36);
+DataArray(int, LauncherKeyIndexToGameKey, 0x174F348, 114);                 // Keyboard.cfg <key index=N/> -> key code
+static auto& PlayerInputWay = InputMode;                                   // alias: per player 0 = keyboard, 1 = gamepad
+DataPointer(int, ControlsInPauseMenu, 0x1A55758);                          // Help and Options screens opened from the pause menu
+DataPointer(int, SettingsInPauseMenu, 0x1A55950);                          // Settings opened from the pause menu
+DataPointer(char*, SettingsMenuState, 0xC77F20);                           // -> 0x1D7B9E0; +0xC0 cursor, +0xC1 non-zero = 7 items
+DataPointer(int, SettingsWheelAngle, 0x1A3D90C);                           // current angle of the Settings item wheel
