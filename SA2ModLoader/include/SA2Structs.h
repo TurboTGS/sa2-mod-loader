@@ -4045,4 +4045,27 @@ struct InputBitMapping
 	int RawBit;
 };
 
+// ---- Fonts (TurboTGS/turbo, from SA2_1P_in_2P docs/ui_drawing.md) -------
+// One 24x24 glyph of the game's message font, 32-bit pixels.
+struct FontGlyph24
+{
+	Uint32 Pixels[24][24];
+};
+
+// One language of FontBuffers (0xB5D658), 0x20 bytes. Read by Font_GetGlyph
+// / Font_GetCharWidth; SA2 Render Fix swaps its own fonts in (rf_font.c).
+struct FontLanguage
+{
+	uint8_t* CharMap;           // +0x00 ASCII remap (char - 0x20 -> index), may be null
+	uint8_t* AsciiWidths;       // +0x04 advance - 1, per char from 0x20
+	FontGlyph24* AsciiGlyphs;   // +0x08 null while the font isn't loaded
+	int AsciiType;              // +0x0C
+	uint8_t* KanjiWidths;       // +0x10
+	FontGlyph24* KanjiGlyphs;   // +0x14
+	int KanjiType;              // +0x18
+	uint8_t SjisLeadFirst;      // +0x1C two-byte (Shift-JIS) lead byte range
+	uint8_t SjisLeadLast;       // +0x1D
+	uint8_t pad1E[2];
+};
+
 #pragma pack(pop)

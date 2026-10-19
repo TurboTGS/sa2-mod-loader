@@ -1023,3 +1023,7 @@ DataPointer(int*, HelpOptionsMenuState, 0xC77F14);                         // ma
 DataArray(void*, MainMenu_TopItemHandlers, 0x666154, 7);                   // A/Start in Menu_MainMenu state 2; 4 = Help and Options
 DataArray(void*, MainMenu_HelpOptionsItemHandlers, 0x6661D8, 6);           // A/Start in state 0x10; 3 = Controls, 4 = Settings
 DataPointer(int, CommandLineIsR, 0x1933F6C);                               // lpCmdLine == "-r"
+// ---- Fonts and 2D drawing (TurboTGS/turbo, from SA2_1P_in_2P docs/ui_drawing.md)
+DataArray(FontLanguage, FontBuffers, 0xB5D658, 6);                        // by TextLanguage
+DataPointer(int, FontsLoaded, 0x1AEFD48);                                 // set at the end of FontInit, cleared by FontFree
+DataArray(int, Draw2D_FormatToPrimitiveType, 0x174BB60, 14);              // {vertex format, Magic PrimitiveType} x 7; 0x98 -> 4 (strip)

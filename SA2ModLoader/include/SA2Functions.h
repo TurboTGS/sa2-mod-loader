@@ -4845,3 +4845,62 @@ static inline void NavigateToSubMenu(int selection)
 VoidFunc(InitSettingsMenu, 0x66D560);                                      // creates optionsExec (display = SettingsMenu_Draw)
 VoidFunc(PauseSettings_Update, 0x4416C0);                                  // Settings from the pause menu (calls Menu_Settings)
 VoidFunc(PauseSettings_Draw, 0x441650);
+// ---- Fonts and 2D drawing (TurboTGS/turbo, from SA2_1P_in_2P docs/ui_drawing.md)
+VoidFunc(FontInit, 0x6B6130);                                             // loads FontBuffers, sets FontsLoaded
+VoidFunc(FontFree, 0x6B62C0);
+VoidFunc(AL_MsgFontCreate, 0x543AA0);                                     // Chao World font (SA2 Render Fix name)
+VoidFunc(AL_MsgFontFree, 0x543AF0);
+VoidFunc(Draw2D_SetProjection, 0x429070);                                 // 2D projection for njDrawPolygon2D / njDrawTextureEx
+VoidFunc(Draw2D_SetTransparentBlend, 0x4293B0);
+VoidFunc(Draw2D_FlushPrimitives, 0x41C070);                               // draws the buffered 2D vertices (DrawPrimitiveDirectly)
+VoidFunc(PresentAndClearFrame, 0x4247A0);                                 // Present, then clear; resets the 2D vertex buffer
+VoidFunc(DrawMapTextBackdrop, 0x675D50);                                  // pri 0 + non-strip order: draws nothing in vanilla
+
+// const Uint32* __usercall Font_GetGlyph@<eax>(int lang@<ecx>, int code@<eax>)
+// 24x24 32-bit glyph of `code` (>= 0x100: Shift-JIS) in FontBuffers[lang].
+static const void* const Font_GetGlyphPtr = (void*)0x6B6070;
+static inline const Uint32* Font_GetGlyph(int lang, int code)
+{
+	const Uint32* result;
+	__asm
+	{
+		mov ecx, [lang]
+		mov eax, [code]
+		call Font_GetGlyphPtr
+		mov result, eax
+	}
+	return result;
+}
+
+// int __usercall Font_GetCharWidth@<eax>(int code@<eax>, int lang@<esi>)
+// Advance in pixels; 24 while FontsLoaded is 0.
+static const void* const Font_GetCharWidthPtr = (void*)0x6B6310;
+static inline int Font_GetCharWidth(int lang, int code)
+{
+	int result;
+	__asm
+	{
+		push esi
+		mov esi, [lang]
+		mov eax, [code]
+		call Font_GetCharWidthPtr
+		mov result, eax
+		pop esi
+	}
+	return result;
+}
+
+// void __usercall njDrawTextureEx(NJS_TEXTURE_VTX* vtx@<eax>, int trans)
+// 4 vertices, a strip; z = -1/pri. Uses the texture set by njSetTexture /
+// njSetTextureNum. The game's message text is drawn with it.
+static const void* const njDrawTextureExPtr = (void*)0x77F6B0;
+static inline void njDrawTextureEx(const NJS_TEXTURE_VTX* vtx, int trans)
+{
+	__asm
+	{
+		push[trans]
+		mov eax, [vtx]
+		call njDrawTextureExPtr
+		add esp, 4
+	}
+}
