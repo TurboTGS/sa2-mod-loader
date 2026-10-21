@@ -1027,3 +1027,5 @@ DataPointer(int, CommandLineIsR, 0x1933F6C);                               // lp
 DataArray(FontLanguage, FontBuffers, 0xB5D658, 6);                        // by TextLanguage
 DataPointer(int, FontsLoaded, 0x1AEFD48);                                 // set at the end of FontInit, cleared by FontFree
 DataArray(int, Draw2D_FormatToPrimitiveType, 0x174BB60, 14);              // {vertex format, Magic PrimitiveType} x 7; 0x98 -> 4 (strip)
+// ---- Ranks (TurboTGS/turbo, from SA2_1P_in_2P docs/ranks.md) -------------
+DataPointer(uint8_t*, StageStatusPtr, 0x1A5A230);                          // -> 0x19457F8; +3 rank, +0xC ring counts (INFERRED name)

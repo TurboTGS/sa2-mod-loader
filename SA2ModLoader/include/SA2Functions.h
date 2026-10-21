@@ -4904,3 +4904,29 @@ static inline void njDrawTextureEx(const NJS_TEXTURE_VTX* vtx, int trans)
 		add esp, 4
 	}
 }
+// ---- Ranks (TurboTGS/turbo, from SA2_1P_in_2P docs/ranks.md) -------------
+// void __usercall AwardRankForTime(ResultRankInfo* info@<edi>): missions 2 and 3
+static const void* const AwardRankForTimePtr = (void*)0x4505D0;
+static inline void AwardRankForTime(ResultRankInfo* info)
+{
+	__asm
+	{
+		push edi
+		mov edi, [info]
+		call AwardRankForTimePtr
+		pop edi
+	}
+}
+
+// void __usercall AwardRankForKartTime(ResultRankInfo* info@<edi>): Route 101 / 280
+static const void* const AwardRankForKartTimePtr = (void*)0x4506C0;
+static inline void AwardRankForKartTime(ResultRankInfo* info)
+{
+	__asm
+	{
+		push edi
+		mov edi, [info]
+		call AwardRankForKartTimePtr
+		pop edi
+	}
+}

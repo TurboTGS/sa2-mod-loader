@@ -4068,4 +4068,9 @@ struct FontLanguage
 	uint8_t pad1E[2];
 };
 
+// ---- Ranks (TurboTGS/turbo, from SA2_1P_in_2P docs/ranks.md) -------------
+// The result screen's rank info (Data2 of CalcTotalScore / CalcTotalTime):
+// +2 Rank (0 E .. 4 A), +3 Perfect, +8 TimeBonus, +0xC Score.
+typedef struct_this ResultRankInfo;
+
 #pragma pack(pop)
