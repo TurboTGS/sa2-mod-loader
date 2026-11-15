@@ -1029,3 +1029,5 @@ DataPointer(int, FontsLoaded, 0x1AEFD48);                                 // set
 DataArray(int, Draw2D_FormatToPrimitiveType, 0x174BB60, 14);              // {vertex format, Magic PrimitiveType} x 7; 0x98 -> 4 (strip)
 // ---- Ranks (TurboTGS/turbo, from SA2_1P_in_2P docs/ranks.md) -------------
 DataPointer(uint8_t*, StageStatusPtr, 0x1A5A230);                          // -> 0x19457F8; +3 rank, +0xC ring counts (INFERRED name)
+// ---- Speed Highway (TurboTGS/turbo, from SA2_1P_in_2P) -------------------
+DataArray(void*, ChaosDriveFuncs, 0x1DE4680, 4);                          // set by every level's Init (Speed Highway: dword_1DE4680..68C)

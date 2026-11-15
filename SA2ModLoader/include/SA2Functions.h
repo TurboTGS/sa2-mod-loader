@@ -4930,3 +4930,96 @@ static inline void AwardRankForKartTime(ResultRankInfo* info)
 		pop edi
 	}
 }
+
+// ---- Speed Highway (TurboTGS/turbo, from SA2_1P_in_2P) ------------------
+// Game functions the Speed Highway port (Sora's SA2-Speed-Highway) declared
+// itself; its sa2-utils.h used the names in brackets.
+
+// void __usercall CalcVector_PlayerRotInverse(EntityData1* data@<edi>, NJS_VECTOR* v@<esi>)
+// [PConvertVector_G2P]: CalcVector_PlayerRot's inverse (rotate Y, -X, -Z):
+// a world vector into the player's own axes.
+static const void* const CalcVector_PlayerRotInversePtr = (void*)0x468DF0;
+static inline void CalcVector_PlayerRotInverse(EntityData1* data, NJS_VECTOR* v)
+{
+	__asm
+	{
+		mov esi, [v]
+		mov edi, [data]
+		call CalcVector_PlayerRotInversePtr
+	}
+}
+
+// void __usercall GamePlayerMissed_Load(int pnum@<ebx>) [BGCheckAndKillPlayer]:
+// the player misses (falls out / dies): loads the miss task.
+static const void* const GamePlayerMissed_LoadPtr = (void*)0x46B330;
+static inline void GamePlayerMissed_Load(int pnum)
+{
+	__asm
+	{
+		push ebx
+		mov ebx, [pnum]
+		call GamePlayerMissed_LoadPtr
+		pop ebx
+	}
+}
+
+// void __usercall Player_SetRunAnimBySpeed(CharObj2Base* co2@<ebx>, EntityData1* data)
+// [PhysicsAndAnimCheck]: the run animation (co2 +0x176) from the speed.
+static const void* const Player_SetRunAnimBySpeedPtr = (void*)0x474F80;
+static inline void Player_SetRunAnimBySpeed(CharObj2Base* co2, EntityData1* data)
+{
+	__asm
+	{
+		push ebx
+		push [data]
+		mov ebx, [co2]
+		call Player_SetRunAnimBySpeedPtr
+		add esp, 4
+		pop ebx
+	}
+}
+
+// void __usercall Checkpoint_Clear(int pnum@<eax>) [CP_ResetPosition]:
+// clears CheckpointRecords[pnum].
+static const void* const Checkpoint_ClearPtr = (void*)0x43E380;
+static inline void Checkpoint_Clear(int pnum)
+{
+	__asm
+	{
+		mov eax, [pnum]
+		call Checkpoint_ClearPtr
+	}
+}
+
+// signed int __usercall Sonic_CheckJump@<eax>(EntityData1* data@<eax>, CharObj2Base* co2, SonicCharObj2* sco2)
+static const void* const Sonic_CheckJumpPtr = (void*)0x721C00;
+static inline signed int Sonic_CheckJump(EntityData1* data, CharObj2Base* co2, SonicCharObj2* sco2)
+{
+	signed int result;
+	__asm
+	{
+		push [sco2]
+		push [co2]
+		mov eax, [data]
+		call Sonic_CheckJumpPtr
+		add esp, 8
+		mov result, eax
+	}
+	return result;
+}
+
+// void __usercall Player_TurnToAngleBySpeed(__int16 angle@<ax>, EntityData1* data, CharObj2Base* co2)
+// [PAdjustAngleYS]: turns toward angle (rate 0x100, or from the speed), then
+// blends the speed vector.
+static const void* const Player_TurnToAngleBySpeedPtr = (void*)0x460610;
+static inline void Player_TurnToAngleBySpeed(__int16 angle, EntityData1* data, CharObj2Base* co2)
+{
+	__asm
+	{
+		push [co2]
+		push [data]
+		mov ax, [angle]
+		call Player_TurnToAngleBySpeedPtr
+		add esp, 8
+	}
+}
